@@ -1,0 +1,23 @@
+<div class="results">
+  <p>{{title}}<p>
+  <iframe class="video w100" width="50" height="50" src="//www.youtube.com/embed/{{videoid}}" frameborder="0"></iframe>
+  <button id="sbutton">Choose</button>
+  <p>{{videoid}}</p>
+</div>
+
+<script>
+var button = document.getElementById('sbutton'); // Assumes element with id='button'
+
+button.onclick = function() {
+  //console.log(videoid);
+  console.log(videoid3);
+    var div = document.getElementById('results');
+    if (div.style.display !== 'none') {
+        div.style.display = 'none';
+    }
+    else {
+        div.style.display = 'block';
+    }
+
+};
+</script>
