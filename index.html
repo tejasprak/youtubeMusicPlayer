@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+<title>Search</title>
+</head>
+<body>
+  <div id="buttons">
+  <label> <input id="query" value='cats' type="text"/><button id="search-button"  onclick="keyWordsearch()">Search</button></label>
+  </div>
+
+  <div id="search-container">
+  </div>
+  <div id="results">
+  </div>
+
+
+  <script>
+    function tplawesome(e,t){res=e;for(var n=0;n<t.length;n++){res=res.replace(/\{\{(.*?)\}\}/g,function(e,r){return t[n][r]})}return res}
+    $("#sbutton").click(function() {
+    // assumes element with id='button'
+    $("#results").toggle();
+    });
+    function keyWordsearch(){
+            gapi.client.setApiKey('AIzaSyB6SDZYZLNY5gtlwcmPLhb3zcl-c7rGbs0');
+            gapi.client.load('youtube', 'v3', function() {
+                    makeRequest();
+            });
+    }
+    function makeRequest() {
+            var q = $('#query').val();
+            var request = gapi.client.youtube.search.list({
+                       q: q,
+                    part: 'snippet'
+            });
+            request.execute(function(response) {
+              var results = response.result;
+              $("#results").html("");
+              $.each(results.items, function(index, item) {
+                window['video' + results.items] = item.id.videoId;
+                $.get("tpl/item.html", function(data) {
+                    $("#results").append(tplawesome(data, [{"title":item.snippet.title, "videoid":item.id.videoId}]));
+
+                    //console.log(videoid);
+                });
+              });
+              resetVideoHeight();
+            });
+    }
+ </script>
+
+ <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+ <script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"> </script>
+</body>
+</html>
